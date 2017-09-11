@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/devider_view_color"
+        android:paddingRight="10dp">
+
+        <TextView
+            style="@style/text_title"
+            android:layout_centerInParent="true"
+            android:text="@string/app_name"/>
+
+        <ImageView
+            android:id="@+id/main_scan_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/scan"/>
+    </RelativeLayout>
+
+    <View style="@style/view_line"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/text_title_small"
+                android:text="键入直播地址"
+                />
+
+            <EditText
+                android:id="@+id/main_push_url"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/shape_grey"
+                />
+
+            <TextView
+                style="@style/text_title_small"
+                android:text="推流类型"
+                android:background="@color/title_grey"/>
+
+            <RadioGroup
+                android:id = "@+id/main_stream_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                >
+
+                <RadioButton
+                    android:id="@+id/main_stream_av"
+                    style="@style/radio_button"
+                    android:text="音视频"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/main_stream_video"
+                    style="@style/radio_button"
+                    android:text="单视频"/>
+
+                <RadioButton
+                    android:id="@+id/main_stream_audio"
+                    style="@style/radio_button"
+                    android:text="单音频"/>
+            </RadioGroup >
+
+            <TextView
+                style="@style/text_title_small"
+                android:text="推流格式"
+                android:background="@color/title_grey"/>
+
+            <RadioGroup
+                android:id = "@+id/main_format_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                >
+
+                <RadioButton
+                    android:id="@+id/main_format_rtmp"
+                    style="@style/radio_button"
+                    android:text="推流"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/main_format_mp4"
+                    style="@style/radio_button"
+                    android:text="录制"/>
+
+                <RadioButton
+                    android:id="@+id/main_format_rtmp_and_mp4"
+                    style="@style/radio_button"
+                    android:text="边推边录"/>
+            </RadioGroup >
+
+            <EditText
+                android:id="@+id/main_format_path"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="8dp"
+                android:hint="文件录制地址"
+                android:visibility="gone"
+                android:background="@drawable/shape_grey"
+                />
+
+            <TextView
+                style="@style/text_title_small"
+                android:text="清晰度选择"
+                android:background="@color/title_grey"/>
+
+            <RadioGroup
+                android:id = "@+id/main_radiogroup_resolution"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                >
+
+                <RadioButton
+                    android:id="@+id/main_resolution_super"
+                    style="@style/radio_button"
+                    android:text="超清"/>
+
+                <RadioButton
+                    android:id="@+id/main_resolution_high"
+                    android:checked="true"
+                    style="@style/radio_button"
+                    android:text="高清"/>
+
+                <RadioButton
+                    android:id="@+id/main_resolution_medium"
+                    style="@style/radio_button"
+                    android:text="标清"/>
+            </RadioGroup >
+
+            <TextView
+                style="@style/text_title_small"
+                android:text="屏幕宽度选择"
+                android:background="@color/title_grey"/>
+
+            <RadioGroup
+                android:id = "@+id/main_screen_scale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                >
+
+                <RadioButton
+                    android:id="@+id/main_scale_16x9"
+                    style="@style/radio_button"
+                    android:text="宽屏"/>
+
+                <RadioButton
+                    android:id="@+id/main_scale_normal"
+                    android:checked="true"
+                    style="@style/radio_button"
+                    android:text="非宽屏"/>
+            </RadioGroup >
+
+            <TextView
+                android:id="@+id/main_use_filter"
+                style="@style/text_title_radio"
+                android:text="使用滤镜"
+                android:drawableRight="@drawable/switch_on"
+                android:tag="true"/>
+
+            <RadioGroup
+                android:id="@+id/main_filter_radiogroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <RadioButton
+                    android:id="@+id/main_filter_clean"
+                    style="@style/radio_button"
+                    android:checked="true"
+                    android:text="清爽"/>
+
+                <RadioButton
+                    android:id="@+id/main_filter_nature"
+                    style="@style/radio_button"
+                    android:text="自然"/>
+
+                <RadioButton
+                    android:id="@+id/main_filter_pixar"
+                    style="@style/radio_button"
+                    android:text="复古"/>
+
+                <RadioButton
+                    android:id="@+id/main_filter_tender"
+                    style="@style/radio_button"
+                    android:text="温柔"/>
+            </RadioGroup >
+
+
+            <TextView
+                android:id="@+id/main_water"
+                style="@style/text_title_radio"
+                android:text="添加水印"
+                android:tag="false"/>
+
+            <TextView
+                android:id="@+id/main_front_camera"
+                style="@style/text_title_radio"
+                android:drawableRight="@drawable/switch_on"
+                android:tag="true"
+                android:text="默认前置摄像头" />
+
+            <TextView
+                android:id="@+id/main_graffiti"
+                style="@style/text_title_radio"
+                android:text="打开涂鸦"
+                android:tag="false"/>
+
+            <TextView
+                android:id="@+id/main_qos"
+                style="@style/text_title_radio"
+                android:text="开启Qos功能"
+                android:drawableRight="@drawable/switch_on"
+                android:tag="true"/>
+
+            <TextView
+                android:id="@+id/main_log_upload"
+                style="@style/text_title_radio"
+                android:text="上传SDK日志"
+                android:drawableRight="@drawable/switch_on"
+                android:tag="true"/>
+
+            <Button
+                android:id="@+id/main_start"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="20dp"
+                android:background="@color/menu_item_click_color"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:text="进入直播"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

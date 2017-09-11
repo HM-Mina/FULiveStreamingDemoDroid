@@ -1,0 +1,69 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="AnimationPreview">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <style name="view_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/group_small_text_color</item>
+    </style>
+
+    <style name="text_title">
+        <item name="android:textSize">@dimen/text_20dp</item>
+        <item name="android:textColor">@color/actionbar_sel_color</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="text_content" parent="text_title">
+        <item name="android:textSize">@dimen/text_18dp</item>
+    </style>
+
+    <style name="text_title_small">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/actionbar_sel_color</item>
+        <item name="android:textSize">@dimen/text_19dp</item>
+        <item name="android:padding">6dp</item>
+    </style>
+
+    <style name="text_title_radio">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/actionbar_sel_color</item>
+        <item name="android:textSize">@dimen/text_19dp</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:background">@color/title_grey</item>
+        <item name="android:drawableRight">@drawable/switch_off</item>
+    </style>
+
+    <style name="radio_button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+</resources>

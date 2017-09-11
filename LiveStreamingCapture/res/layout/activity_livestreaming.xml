@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:onClick="onBackgroundClick"
+    android:id="@+id/live_root"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#000000" >
+
+    <com.netease.vcloud.video.render.NeteaseView
+        android:id="@+id/videoview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"/>
+
+    <RelativeLayout
+        android:id="@+id/live_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/live_net_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/info"
+            android:layout_alignParentLeft="true"/>
+
+        <ImageView
+            android:id="@+id/live_flash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/flashstart"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/live_speed_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/speed"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <SeekBar
+        android:id="@+id/live_filter_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/live_title_layout"
+        android:thumb="@drawable/circle"
+        android:max="100"
+        android:layout_margin="5dp"
+        android:visibility="gone"
+        />
+
+    <SeekBar
+        android:id="@+id/live_beauty_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/live_filter_seekbar"
+        android:thumb="@drawable/circle"
+        android:max="100"
+        android:layout_margin="5dp"
+        android:visibility="gone"
+        />
+
+
+    <ImageView
+        android:id="@+id/live_start_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/restart"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true"
+        />
+
+    <LinearLayout
+        android:id="@+id/live_btn_layout"
+        android:layout_toRightOf="@id/live_start_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:gravity="right"
+        android:layout_margin="20dp">
+
+        <ImageView
+            android:id="@+id/live_camera_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/camera"/>
+
+        <ImageView
+            android:id="@+id/live_capture_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/capture"/>
+
+        <ImageView
+            android:id="@+id/live_filter_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/filter"/>
+
+        <ImageView
+            android:id="@+id/live_music_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/music"/>
+
+        <ImageView
+            android:id="@+id/live_config_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/config"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/live_camera_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_above="@id/live_btn_layout"
+        android:src="@drawable/change"/>
+
+    <include
+        android:id="@+id/live_video_face_unity"
+        layout="@layout/faceu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/live_camera_change"/>
+
+
+    <TextView
+        android:id="@+id/text_fps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp"
+        android:layout_below="@id/live_title_layout"
+        android:textColor="@color/green"
+        android:layout_alignParentRight="true"/>
+
+    <TextView android:id="@+id/speedResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/green"
+        android:layout_centerInParent="true"
+        />
+
+    <LinearLayout
+        android:id="@+id/filter_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/brooklyn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="怀旧"/>
+        <Button
+            android:id="@+id/clean"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="干净"/>
+        <Button
+            android:id="@+id/nature"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="自然"/>
+        <Button
+            android:id="@+id/healthy"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="健康"/>
+        <Button
+            android:id="@+id/pixar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="复古"/>
+        <Button
+            android:id="@+id/tender"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="温柔"/>
+        <Button
+            android:id="@+id/whiten"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="美白"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/live_config_layout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/text_title_small"
+                    android:text="预览镜像"
+                    android:background="@color/title_grey"/>
+
+                <RadioGroup
+                    android:id="@+id/live_config_preview_mirror"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="3dp"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/live_config_preview_mirror_on"
+                        style="@style/radio_button"
+                        android:text="开"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:id="@+id/live_config_preview_mirror_off"
+                        style="@style/radio_button"
+                        android:text="关"/>
+                </RadioGroup >
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/text_title_small"
+                    android:text="推流镜像"
+                    android:layout_gravity="center"
+                    android:background="@color/title_grey"/>
+
+                <RadioGroup
+                    android:id="@+id/live_config_push_mirror"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="3dp"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/live_config_push_mirror_on"
+                        style="@style/radio_button"
+                        android:text="开"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/live_config_push_mirror_off"
+                        style="@style/radio_button"
+                        android:checked="true"
+                        android:text="关"/>
+                </RadioGroup >
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!-- 水印开关 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/text_title_small"
+                    android:text="本地水印"
+                    android:background="@color/title_grey"/>
+
+                <RadioGroup
+                    android:id="@+id/live_config_water"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="3dp"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/live_config_water_on"
+                        style="@style/radio_button"
+                        android:text="开"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:id="@+id/live_config_water_off"
+                        style="@style/radio_button"
+                        android:text="关"/>
+                </RadioGroup >
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/text_title_small"
+                    android:text="本地涂鸦"
+                    android:layout_gravity="center"
+                    android:background="@color/title_grey"/>
+
+                <RadioGroup
+                    android:id="@+id/live_config_graffiti"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="3dp"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/live_config_graffiti_on"
+                        style="@style/radio_button"
+                        android:text="开"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:id="@+id/live_config_graffiti_off"
+                        style="@style/radio_button"
+                        android:text="关"/>
+                </RadioGroup >
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/text_title_small"
+                    android:text="动态水印"
+                    android:layout_gravity="center"
+                    android:background="@color/title_grey"/>
+
+                <RadioGroup
+                    android:id="@+id/live_config_dynamicWater"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="3dp"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/live_config_dynamicWater_on"
+                        style="@style/radio_button"
+                        android:text="开"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:id="@+id/live_config_dynamicWater_off"
+                        style="@style/radio_button"
+                        android:text="关"/>
+                </RadioGroup >
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
