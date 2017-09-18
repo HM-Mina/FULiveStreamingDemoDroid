@@ -106,6 +106,8 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 	// face unity
 	private FaceU faceU;
 
+	private boolean isFacingBack;
+
 	private Toast mToast;
 	private void showToast(final String text){
 		if(mToast == null){
@@ -277,7 +279,7 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 				public void onVideoCapture(byte[] data, int width, int height) {
 					// 这里将data直接修改，SDK根据修改后的data数据直接推流
 					if (faceU != null) {
-						faceU.effect(data, width, height, FaceU.VIDEO_FRAME_FORMAT.NV21);
+						faceU.effect(data, width, height, FaceU.VIDEO_FRAME_FORMAT.NV21, isFacingBack ? 90 : 270);
 					}
 				}
 			});
@@ -921,6 +923,7 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 	private void switchCamera() {
 		if(mLSMediaCapture != null) {
 			mLSMediaCapture.switchCamera();
+			isFacingBack = !isFacingBack;
 		}
 	}
 
