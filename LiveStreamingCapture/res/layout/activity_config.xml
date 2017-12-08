@@ -133,11 +133,11 @@
                 <RadioButton
                     android:id="@+id/main_resolution_super"
                     style="@style/radio_button"
+                    android:checked="true"
                     android:text="超清"/>
 
                 <RadioButton
                     android:id="@+id/main_resolution_high"
-                    android:checked="true"
                     style="@style/radio_button"
                     android:text="高清"/>
 

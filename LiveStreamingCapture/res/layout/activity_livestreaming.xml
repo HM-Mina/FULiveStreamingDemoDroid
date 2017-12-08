@@ -41,27 +41,77 @@
 
     </RelativeLayout>
 
-    <SeekBar
-        android:id="@+id/live_filter_seekbar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/live_title_layout"
-        android:thumb="@drawable/circle"
-        android:max="100"
-        android:layout_margin="5dp"
-        android:visibility="gone"
-        />
+        android:orientation="horizontal"
+        android:layout_marginTop="55dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_blue_bright"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:text="滤镜"/>
 
-    <SeekBar
-        android:id="@+id/live_beauty_seekbar"
+        <SeekBar
+            android:id="@+id/live_filter_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:thumb="@drawable/circle"
+            android:max="100"
+            android:layout_margin="5dp"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/live_filter_seekbar"
-        android:thumb="@drawable/circle"
-        android:max="100"
-        android:layout_margin="5dp"
-        android:visibility="gone"
-        />
+        android:orientation="horizontal"
+        android:layout_marginTop="90dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_blue_bright"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:text="磨皮"/>
+
+        <SeekBar
+            android:id="@+id/live_beauty_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:thumb="@drawable/circle"
+            android:max="100"
+            android:layout_margin="5dp"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="130dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_blue_bright"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:text="曝光度"/>
+
+        <SeekBar
+            android:id="@+id/live_Exposure_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:thumb="@drawable/circle"
+            android:max="100"
+            android:progress="50"
+            android:layout_margin="5dp"
+            />
+    </LinearLayout>
 
 
     <ImageView

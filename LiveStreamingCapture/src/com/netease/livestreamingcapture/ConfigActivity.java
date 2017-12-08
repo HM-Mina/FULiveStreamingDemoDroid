@@ -21,6 +21,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.netease.LSMediaCapture.lsLogUtil;
 import com.netease.LSMediaCapture.lsMediaCapture;
 import com.netease.LSMediaCapture.util.string.StringUtil;
 import com.netease.vcloud.video.effect.VideoEffect;
@@ -36,8 +37,7 @@ import java.util.Locale;
 import static com.netease.LSMediaCapture.lsMediaCapture.FormatType.RTMP;
 import static com.netease.LSMediaCapture.lsMediaCapture.StreamType.AV;
 
-public class
-ConfigActivity extends Activity implements View.OnClickListener{
+public class ConfigActivity extends Activity implements View.OnClickListener{
     private PublishParam publishParam = null;
     private EditText editMainPushUrl  = null;
     private RadioGroup filterGroup = null;
@@ -98,7 +98,7 @@ ConfigActivity extends Activity implements View.OnClickListener{
         lsMediaCapture.StreamType streamType = AV;  // 推流类型
         lsMediaCapture.FormatType formatType = RTMP; // 推流格式
         String recordPath; //文件录制地址，当formatType 为 MP4 或 RTMP_AND_MP4 时有效
-        lsMediaCapture.VideoQuality videoQuality = lsMediaCapture.VideoQuality.HIGH; //清晰度
+        lsMediaCapture.VideoQuality videoQuality = lsMediaCapture.VideoQuality.SUPER; //清晰度
         boolean isScale_16x9 = false; //是否强制16:9
         boolean useFilter = true; //是否使用滤镜
         VideoEffect.FilterType filterType = VideoEffect.FilterType.clean; //滤镜类型

@@ -184,8 +184,9 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 		}
 
 		// SDK 默认提供 /** 标清 480*360 */MEDIUM, /** 高清 640*480 */HIGH,
-		// /** 超清 960*540 */SUPER,/** 超高清 (1280*720) */SUPER_HIGH  五个模板，
+		// /** 超清 960*540 */SUPER,/** 超高清 (1280*720) */SUPER_HIGH  四个模板，
 		// 用户如果需要自定义分辨率可以调用startVideoPreviewEx 接口并参考以下参数
+		// 码率计算公式为 width * height * fps * 9 /100;
 
 //		lsMediaCapture.VideoPara para = new lsMediaCapture.VideoPara();
 //		para.setHeight(720);
@@ -218,13 +219,15 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 //						}
 //						int width = 352;
 //						int height = 288;
-//						FileInputStream in = new FileInputStream("/sdcard/dump_352_288.yuv");
+//						int fps = 20;
+//						int bitrate = width * height * fps * 9 /100;
+//						FileInputStream in = new FileInputStream(String.format(Locale.getDefault(),"/sdcard/dump_%d_%d.yuv",width,height));
 //						int len = width * height * 3 / 2;
 //						byte buffer[] = new byte[len];
 //						int count;
 //						while ((count = in.read(buffer)) != -1) {
 //							if (len == count) {
-//								mLSMediaCapture.sendCustomYUVData(buffer,width,height,250*1000,15);
+//								mLSMediaCapture.sendCustomYUVData(buffer,width,height,bitrate,fps);
 //							} else {
 //								break;
 //							}
@@ -528,6 +531,7 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 						int videoBitrate = bundle.getInt("VBR");
 						int audioBitrate = bundle.getInt("ABR");
 						int totalRealBitrate = bundle.getInt("TBR");
+						int networkLevel = bundle.getInt("networkLevel");
 						String resolution = bundle.getString("resolution");
 						try {
 							if (mNetInfoIntent != null) {
@@ -535,6 +539,7 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 								mNetInfoIntent.putExtra("videoBitRate", videoBitrate);
 								mNetInfoIntent.putExtra("audioBitRate", audioBitrate);
 								mNetInfoIntent.putExtra("totalRealBitrate", totalRealBitrate);
+								mNetInfoIntent.putExtra("networkLevel", networkLevel);
 								mNetInfoIntent.putExtra("resolution", resolution);
 								sendBroadcast(mNetInfoIntent);
 							}
@@ -646,7 +651,7 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 				if(time - clickTime < 1000){
 					return;
 				}
-
+				clickTime = time;
 				startPauseResumeBtn.setClickable(false);
 				if(!m_liveStreamingOn)
 				{
@@ -761,23 +766,16 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 			filterSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
 					if(mLSMediaCapture != null){
 						float param;
 						param = (float)progress/100;
 						mLSMediaCapture.setFilterStrength(param);
 					}
 				}
-
 				@Override
-				public void onStartTrackingTouch(SeekBar seekBar) {
-
-				}
-
+				public void onStartTrackingTouch(SeekBar seekBar) {}
 				@Override
-				public void onStopTrackingTouch(SeekBar seekBar) {
-
-				}
+				public void onStopTrackingTouch(SeekBar seekBar) {}
 			});
 
 			SeekBar beautySeekBar = ((SeekBar) findViewById(R.id.live_beauty_seekbar));
@@ -786,25 +784,32 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 			beautySeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
 					if(mLSMediaCapture != null){
 						int param;
 						param = progress/20;
 						mLSMediaCapture.setBeautyLevel(param);
 					}
 				}
-
 				@Override
-				public void onStartTrackingTouch(SeekBar seekBar) {
-
-				}
-
+				public void onStartTrackingTouch(SeekBar seekBar) {}
 				@Override
-				public void onStopTrackingTouch(SeekBar seekBar) {
-
-				}
+				public void onStopTrackingTouch(SeekBar seekBar) {}
 			});
 
+			SeekBar SeekbarExposure = (SeekBar) findViewById(R.id.live_Exposure_seekbar);
+			SeekbarExposure.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+				@Override
+				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+					if(mLSMediaCapture != null){
+						int max = mLSMediaCapture.getMaxExposureCompensation();
+						mLSMediaCapture.setExposureCompensation((progress-50) * max /50);
+					}
+				}
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar) {}
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar) {}
+			});
 		}
 
 		configLayout = findViewById(R.id.live_config_layout);
@@ -995,15 +1000,15 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 			Bitmap water = BitmapFactory.decodeResource(getResources(),R.drawable.water);
 			int x = 120;
 			int y = 60;
-			mLSMediaCapture.setWaterMarkPara(water,x,y);
+			mLSMediaCapture.setWaterMarkPara(water, VideoEffect.Rect.leftTop,x,y);
 		}
 	}
 
 	Bitmap[] bitmaps;
 	private void addDynamicWaterMark(){
 		if(mLSMediaCapture != null){
-			int x = 100;
-			int y = 100;
+			int x = 0;
+			int y = 0;
 			int fps = 1; //水印的帧率
 			boolean looped = true; //是否循环
 			String[] waters;
@@ -1017,7 +1022,7 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 					Bitmap tmp = BitmapFactory.decodeStream(getAssets().open(waters[i]));
 					bitmaps[i] = tmp;
 				}
-				mLSMediaCapture.setDynamicWaterMarkPara(bitmaps,x,y,fps,looped);
+				mLSMediaCapture.setDynamicWaterMarkPara(bitmaps,VideoEffect.Rect.center,x,y,fps,looped);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -1253,9 +1258,10 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 				    			      			  
 	              Bundle bundle = new Bundle();  
 	              bundle.putInt("FR", statistics.videoEncodeFrameRate);
-	              bundle.putInt("VBR", statistics.videoEncodeBitRate);
-	              bundle.putInt("ABR", statistics.audioEncodeBitRate);
+	              bundle.putInt("VBR", statistics.videoRealSendBitRate);
+	              bundle.putInt("ABR", statistics.audioRealSendBitRate);
 	              bundle.putInt("TBR", statistics.totalRealSendBitRate);
+				  bundle.putInt("networkLevel", statistics.networkLevel);
 				  bundle.putString("resolution", statistics.videoEncodeWidth + " x " + statistics.videoEncodeHeight);
 	              message.setData(bundle);
 //				  Log.i(TAG, "test: audio : " + statistics.audioEncodeBitRate + "  video: " + statistics.videoEncodeBitRate + "  total: " + statistics.totalRealSendBitRate);

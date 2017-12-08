@@ -4,11 +4,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'com.android.support:support-v4:23.0.0'
     // 二维码库
-    compile fileTree(include: '*.jar', dir: 'libs')
-    compile(name: 'zxing-1.8.4', ext: 'aar')
-    compile(name: 'barcodescanner-core-1.8.4', ext: 'aar')
+    compile fileTree(dir: 'libs', include: '*.jar')
+    compile(name:'zxing-1.8.4', ext:'aar')
+    compile(name:'barcodescanner-core-1.8.4', ext:'aar')
+
     //直播SDK
-    compile fileTree(include: '*.jar', dir: 'jniLibs')
+    compile fileTree(dir: 'jniLibs', include: '*.jar')
     compile project(':faceunity')
 }
 

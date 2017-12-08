@@ -1,4 +1,4 @@
-本代码由云信 直播推流Demo v2.1.0修改
+本代码由云信 直播推流Demo v2.3.1修改
 # 集成步骤
 ## 添加module
 添加faceunity module到工程中，在LiveStreamingCapture dependencies里添加compile project(':faceunity')

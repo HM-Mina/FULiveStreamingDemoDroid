@@ -27,7 +27,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:text="视频编码帧率:" 
+                android:text="视频发送帧率:"
                 android:textSize="14sp"
                 android:textColor="#00ffff" />
 
@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 android:text="0fps"
                 android:gravity="left"
-                android:textColor="@color/white"
+                android:textColor="@color/text_yellow_color"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -59,7 +59,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:text="视频编码码率:" 
+                android:text="视频发送码率:"
                 android:textSize="14sp"
                 android:textColor="#00ffff" />
 
@@ -71,7 +71,7 @@
                 android:focusable="true"
                 android:text="0kbps"
                 android:gravity="left"
-                android:textColor="@color/white"
+                android:textColor="@color/text_yellow_color"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -92,7 +92,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:text="音频编码码率:" 
+                android:text="音频发送码率:"
                 android:textSize="14sp"
                 android:textColor="#00ffff" />
 
@@ -103,7 +103,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="0fps"
-                android:textColor="@color/white"
+                android:textColor="@color/text_yellow_color"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -135,7 +135,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="0fps"
-                android:textColor="@color/white"
+                android:textColor="@color/text_yellow_color"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -168,8 +168,41 @@
                 android:gravity="left"
                 android:singleLine="false"
                 android:text="流畅"
-                android:textColor="@color/white"
+                android:textColor="@color/text_yellow_color"
                 android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ResolutionWindow"
+            android:orientation="horizontal"
+            android:layout_marginTop="0dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:text="网络状况:"
+                android:textSize="14sp"
+                android:textColor="#00ffff" />
+
+            <TextView
+                android:id="@+id/networkLevel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:singleLine="false"
+                android:text="未知"
+                android:textColor="@color/text_yellow_color"
+                android:textSize="14sp"
+                />
 
         </LinearLayout>
     </RelativeLayout>

@@ -20,13 +20,14 @@ import com.netease.livestreamingcapture.R;
 public class NetWorkInfoDialog extends PopupWindow{
 
     public static final String NETINFO_ACTION = "com.netease.netInfo";
-    private TextView videoFrameRateTV, videoBitRateTV, audioBitRateTV, totalRealBitRateTV, ResolutionTV;
+    private TextView videoFrameRateTV, videoBitRateTV, audioBitRateTV, totalRealBitRateTV, ResolutionTV,networkLevelTV;
     private MsgReceiver msgReceiver;
 
     private int mVideoFrameRate = 0;
     private int mVideoBitrate = 0;
     private int mAudioBitrate = 0;
     private int mTotalRealBitrate = 0;
+    private int mNetworkLevel = 0;
 
     private String mResolution;
     private Context mContext;
@@ -71,6 +72,7 @@ public class NetWorkInfoDialog extends PopupWindow{
         audioBitRateTV = (TextView)view.findViewById(R.id.AudioBitRateTV);
         totalRealBitRateTV = (TextView)view.findViewById(R.id.TotalRealBitRateTV);
         ResolutionTV = (TextView)view.findViewById(R.id.ResolutionTV);
+        networkLevelTV = (TextView) view.findViewById(R.id.networkLevel);
 
         videoFrameRateTV.setText(String.valueOf(mVideoFrameRate) + " fps");
         videoBitRateTV.setText(String.valueOf(mVideoBitrate) + " kbps");
@@ -103,6 +105,7 @@ public class NetWorkInfoDialog extends PopupWindow{
             int videoBitRate = intent.getIntExtra("videoBitRate", 0);
             int audioBitRate = intent.getIntExtra("audioBitRate", 0);
             int totalRealBitRate = intent.getIntExtra("totalRealBitrate", 0);
+            int networkLevel = intent.getIntExtra("networkLevel", 0);
             String resolution = intent.getStringExtra("resolution");
 
             mVideoFrameRate = videoFrameRate;
@@ -115,8 +118,30 @@ public class NetWorkInfoDialog extends PopupWindow{
             videoBitRateTV.setText(String.valueOf(videoBitRate) + " kbps");
             audioBitRateTV.setText(String.valueOf(audioBitRate) + " kbps");
             totalRealBitRateTV.setText(String.valueOf(totalRealBitRate) + " kbps");
+            networkLevelTV.setText(getNetworkLevel(networkLevel));
             ResolutionTV.setText(mResolution);
         }
+    }
+
+    private String getNetworkLevel(int level){
+        String str = "未知";
+        switch (level){
+            case 1:
+                str = "好";
+                break;
+            case 2:
+                str = "一般";
+                break;
+            case 3:
+                str = "差";
+                break;
+            case 4:
+                str = "无效";
+                break;
+            default:
+                break;
+        }
+        return str;
     }
 
 }
