@@ -21,7 +21,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.netease.LSMediaCapture.lsLogUtil;
 import com.netease.LSMediaCapture.lsMediaCapture;
 import com.netease.LSMediaCapture.util.string.StringUtil;
 import com.netease.vcloud.video.effect.VideoEffect;
@@ -41,6 +40,7 @@ public class ConfigActivity extends Activity implements View.OnClickListener{
     private PublishParam publishParam = null;
     private EditText editMainPushUrl  = null;
     private RadioGroup filterGroup = null;
+    private RadioGroup qosGroup = null;
     private TextView txtUsingFilter = null, txtWatermark = null, txtQos = null, txtGraffiti = null,txtFrontCamera = null,txtUpload = null;
     private Button mainStartBtn = null;
     private ImageView imageScan = null;
@@ -105,6 +105,7 @@ public class ConfigActivity extends Activity implements View.OnClickListener{
         boolean frontCamera = true; //是否默认前置摄像头
         boolean watermark = false; //是否添加水印
         boolean qosEnable = true;  //是否开启QOS
+        int qosEncodeMode = 1; // 1:流畅优先, 2:清晰优先
         boolean graffitiOn = false; //是否添加涂鸦
         boolean uploadLog = true; //是否上传SDK运行日志
 
@@ -174,10 +175,12 @@ public class ConfigActivity extends Activity implements View.OnClickListener{
                 if(Boolean.parseBoolean(txtQos.getTag().toString())){
                     switchTo(txtQos, false);
                     publishParam.qosEnable = false;
+//                    qosGroup.setVisibility(View.GONE);
                 }
                 else{
                     switchTo(txtQos, true);
                     publishParam.qosEnable = true;
+//                    qosGroup.setVisibility(View.VISIBLE);
                 }
                 break;
 
@@ -312,8 +315,8 @@ public class ConfigActivity extends Activity implements View.OnClickListener{
             }
         });
 
-        RadioGroup resoulationGroup = (RadioGroup)findViewById(R.id.main_radiogroup_resolution);
-        resoulationGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        RadioGroup resolutionGroup = (RadioGroup)findViewById(R.id.main_radiogroup_resolution);
+        resolutionGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
                 switch (checkedId)
@@ -380,6 +383,25 @@ public class ConfigActivity extends Activity implements View.OnClickListener{
 
         (txtWatermark = (TextView)findViewById(R.id.main_water)).setOnClickListener(this);
         (txtQos = (TextView)findViewById(R.id.main_qos)).setOnClickListener(this);
+        qosGroup = (RadioGroup) findViewById(R.id.main_qos_radiogroup);
+        qosGroup.setVisibility(View.GONE);
+        qosGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId)
+                {
+                    case R.id.main_qos_fast:
+                        publishParam.qosEncodeMode = 1;
+                        break;
+                    case R.id.main_qos_clear:
+                        publishParam.qosEncodeMode = 2;
+                        break;
+                    default:
+                        publishParam.qosEncodeMode = 1;
+                        break;
+                }
+            }
+        });
         (txtGraffiti = (TextView)findViewById(R.id.main_graffiti)).setOnClickListener(this);
         (txtFrontCamera = (TextView) findViewById(R.id.main_front_camera)).setOnClickListener(this);
         (txtUpload = (TextView) findViewById(R.id.main_log_upload)).setOnClickListener(this);

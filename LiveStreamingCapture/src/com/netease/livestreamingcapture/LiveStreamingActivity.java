@@ -10,7 +10,6 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -22,7 +21,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -31,8 +29,9 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.faceunity.FaceU;
-import com.faceunity.utils.VersionUtil;
+import com.faceunity.beautycontrolview.BeautyControlView;
+import com.faceunity.beautycontrolview.FURenderer;
+import com.faceunity.wrapper.faceunity;
 import com.netease.LSMediaCapture.Statistics;
 import com.netease.LSMediaCapture.lsAudioCaptureCallback;
 import com.netease.LSMediaCapture.lsLogUtil;
@@ -49,6 +48,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import static com.netease.LSMediaCapture.lsMediaCapture.StreamType.AUDIO;
 import static com.netease.LSMediaCapture.lsMediaCapture.StreamType.AV;
@@ -103,10 +103,11 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 	private boolean mVideoCallback = true; //是否对相机采集的数据进行回调（用户在这里可以进行自定义滤镜等）
 	private boolean mAudioCallback = false; //是否对麦克风采集的数据进行回调（用户在这里可以进行自定义降噪等）
 
-	// face unity
-	private FaceU faceU;
+	private FURenderer mFURenderer;
 
-	private boolean isFacingBack;
+	private BeautyControlView mFaceunityControlView;
+
+	private boolean isFURendererInit;
 
 	private Toast mToast;
 	private void showToast(final String text){
@@ -143,7 +144,7 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 		ConfigActivity.PublishParam publishParam = (ConfigActivity.PublishParam) getIntent().getSerializableExtra("data");
 
         mliveStreamingURL = publishParam.pushUrl;
-		mUseFilter = publishParam.useFilter;
+		mUseFilter = publishParam.useFilter & !mVideoCallback;
 		mNeedWater = publishParam.watermark;
 		mNeedGraffiti = publishParam.graffitiOn;
 
@@ -165,13 +166,15 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 		mLiveStreamingPara.setFormatType(publishParam.formatType); // 推流格式 RTMP、MP4、RTMP_AND_MP4
 		mLiveStreamingPara.setRecordPath(publishParam.recordPath);//formatType 为 MP4 或 RTMP_AND_MP4 时有效
 		mLiveStreamingPara.setQosOn(publishParam.qosEnable);
+//		mLiveStreamingPara.setSyncTimestamp(true,false);//（直播答题使用）网易云透传时间戳，不依赖CDN方式，不需要额外开通(必须包含视频流)
+//		mLiveStreamingPara.setStreamTimestampPassthrough(true); //（直播答题使用）网易云透传时间戳，但完全透传功能需要联系网易云开通，支持纯音频
 
 
         //3、 预览参数设置
         NeteaseView videoView = (NeteaseView) findViewById(R.id.videoview);
+		boolean frontCamera = publishParam.frontCamera; // 是否前置摄像头
+		boolean mScale_16x9 = publishParam.isScale_16x9; //是否强制16:9
 		if(publishParam.streamType != AUDIO){ //开启预览画面
-			boolean frontCamera = publishParam.frontCamera; // 是否前置摄像头
-			boolean mScale_16x9 = publishParam.isScale_16x9; //是否强制16:9
 			lsMediaCapture.VideoQuality videoQuality = publishParam.videoQuality; //视频模板（SUPER_HIGH 1280*720、SUPER 960*540、HIGH 640*480、MEDIUM 480*360、LOW 352*288）
 			mLSMediaCapture.startVideoPreview(videoView,frontCamera,mUseFilter,videoQuality,mScale_16x9);
 		}
@@ -277,13 +280,23 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 		//********** 摄像头采集原始数据回调（非滤镜模式下开发者可以修改该数据，美颜增加滤镜等，推出的流便随之发生变化） *************//
 		if(mVideoCallback){
 			mLSMediaCapture.setCaptureRawDataCB(new VideoCallback() {
-				int i = 0;
 				@Override
-				public void onVideoCapture(byte[] data, int width, int height) {
-					// 这里将data直接修改，SDK根据修改后的data数据直接推流
-					if (faceU != null) {
-						faceU.effect(data, width, height, FaceU.VIDEO_FRAME_FORMAT.NV21, isFacingBack ? 90 : 270);
+				/**
+				 * 摄像头采集数据回调
+				 * @param data 摄像头采集的原始数据(NV21格式)
+				 * @param textureId  摄像头采集的纹理ID
+				 * @param width 视频宽
+				 * @param height 视频高
+				 * @param orientation 相机采集角度
+				 * @return 滤镜后的纹理ID (<=0 表示没有进行滤镜或是滤镜库返回的是buffer数据(NV21格式)，sdk将会使用buffer数据进行后续处理)
+				 */
+				public int onVideoCapture(byte[] data, int textureId, int width, int height, int orientation) {
+					if (!isFURendererInit) {
+						mFURenderer.loadItems();
+						isFURendererInit = true;
 					}
+
+					return mFURenderer.drawFrame(data, textureId, width, height, orientation);
 				}
 			});
 		}
@@ -305,6 +318,16 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 				}
 			});
 		}
+
+//		try {
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("appkey","1111");
+//            jsonObject.put("uid","2222");
+//            mLSMediaCapture.updateCustomStatistics(jsonObject);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+
 
 		//4、发送统计数据到网络信息界面（Demo层实现，用户不需要添加该操作）
 		staticsHandle();
@@ -562,7 +585,8 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 
 					case MSG_FPS:  //本地显示帧率用（用户不需要处理）
 						if(mLSMediaCapture != null){
-							mFpsView.setText("camera size: " + mLSMediaCapture.getCameraWidth() + "x" + mLSMediaCapture.getCameraHeight() +
+							mFpsView.setText("sdk: " + mLSMediaCapture.getSDKVersion() +
+									"\ncamera size: " + mLSMediaCapture.getCameraWidth() + "x" + mLSMediaCapture.getCameraHeight() +
 									"\ncamera fps: " + mLSMediaCapture.getCameraFps() +
 									"\ntarget fps: " + mLSMediaCapture.getDecimatedFps() +
 									"\nrender fps: " + mLSMediaCapture.getRenderFps());
@@ -928,7 +952,6 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 	private void switchCamera() {
 		if(mLSMediaCapture != null) {
 			mLSMediaCapture.switchCamera();
-			isFacingBack = !isFacingBack;
 		}
 	}
 
@@ -1057,7 +1080,6 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 		mGraffitiThread.start();
 	}
 
-
     //处理SDK抛上来的异常和事件，用户需要在这里监听各种消息，进行相应的处理。
 	@Override
 	public void handleMessage(int msg, Object object) {
@@ -1066,7 +1088,13 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 		      case MSG_INIT_LIVESTREAMING_VIDEO_ERROR:	
 		      case MSG_INIT_LIVESTREAMING_AUDIO_ERROR:
 		      {
-				  showToast("初始化直播出错");
+				  showToast("初始化直播出错，正在退出当前界面");
+				  mHandler.postDelayed(new Runnable() {
+					  @Override
+					  public void run() {
+						  LiveStreamingActivity.this.finish();
+					  }
+				  },3000);
 		    	  break;
 		      }
 		      case MSG_START_LIVESTREAMING_ERROR://开始直播出错
@@ -1236,7 +1264,7 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 		      }
 		      case MSG_SWITCH_CAMERA_FINISHED://切换摄像头完成
 		      {
-		    	  int cameraId = (Integer) object;//切换之后的camera id
+				  showToast("相机切换成功");
 		    	  break;
 		      }
 		      case MSG_SEND_STATICS_LOG_FINISHED://发送统计信息完成
@@ -1255,8 +1283,8 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
 
 				  Message message = Message.obtain(mHandler, MSG_GET_STATICS_INFO);
                   Statistics statistics = (Statistics) object;
-				    			      			  
-	              Bundle bundle = new Bundle();  
+
+	              Bundle bundle = new Bundle();
 	              bundle.putInt("FR", statistics.videoEncodeFrameRate);
 	              bundle.putInt("VBR", statistics.videoRealSendBitRate);
 	              bundle.putInt("ABR", statistics.audioRealSendBitRate);
@@ -1498,44 +1526,23 @@ public class LiveStreamingActivity extends Activity implements OnClickListener, 
     }
 
 	private void initFaceU() {
-		showOrHideFaceULayout(false); // hide default
+		mFURenderer = new FURenderer.Builder(this).inputTextureType(faceunity.FU_ADM_FLAG_EXTERNAL_OES_TEXTURE).build();
 
-		if (VersionUtil.isCompatible(Build.VERSION_CODES.JELLY_BEAN_MR2) && FaceU.hasAuthorized()) {
-			// async load FaceU
-			FaceU.createAndAttach(this, findViewById(R.id.live_video_face_unity), new FaceU.Response<FaceU>() {
-				@Override
-				public void onResult(FaceU faceU) {
-					LiveStreamingActivity.this.faceU = faceU;
-					showOrHideFaceULayout(true); // show
-				}
-			});
-		}
+		mFaceunityControlView = (BeautyControlView) findViewById(R.id.faceunity_control);
+		mFaceunityControlView.setOnFaceUnityControlListener(mFURenderer);
+
+//		mFURenderer.loadItems();
 	}
 
 	private void destroyFaceU() {
-		if (faceU == null) {
-			return;
-		}
-
-		try {
-			faceU.destroy();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		mFURenderer.destroyItems();
 	}
 
 	private void showOrHideFaceULayout(boolean show) {
-		ViewGroup vp = (ViewGroup) findViewById(R.id.live_video_face_unity);
-		for (int i = 0; i < vp.getChildCount(); i++) {
-			vp.getChildAt(i).setVisibility(show ? View.VISIBLE : View.GONE);
-		}
+		mFaceunityControlView.setVisibility(show ? View.VISIBLE : View.GONE);
 	}
 
 	public void onBackgroundClick(View view) {
-		if (faceU == null) {
-			return;
-		}
-
-		faceU.showOrHideLayout();
+		showOrHideFaceULayout(mFaceunityControlView.getVisibility() != View.VISIBLE);
 	}
 }

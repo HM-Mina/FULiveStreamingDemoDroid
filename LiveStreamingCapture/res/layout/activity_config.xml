@@ -235,6 +235,25 @@
                 android:drawableRight="@drawable/switch_on"
                 android:tag="true"/>
 
+            <RadioGroup
+                android:id="@+id/main_qos_radiogroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <RadioButton
+                    android:id="@+id/main_qos_fast"
+                    style="@style/radio_button"
+                    android:checked="true"
+                    android:text="流畅优先"/>
+
+                <RadioButton
+                    android:id="@+id/main_qos_clear"
+                    style="@style/radio_button"
+                    android:text="清晰优先"/>
+            </RadioGroup >
+
             <TextView
                 android:id="@+id/main_log_upload"
                 style="@style/text_title_radio"

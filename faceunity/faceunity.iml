@@ -15,7 +15,10 @@
           <task>generateDebugSources</task>
         </afterSyncTasks>
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
-        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/res" />
+        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
+        <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res;file://$MODULE_DIR$/src/main/effects/res;file://$MODULE_DIR$/src/main/filters/res" />
+        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
         <option name="PROJECT_TYPE" value="1" />
       </configuration>
     </facet>
@@ -53,10 +56,16 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testDebug/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testDebug/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testDebug/shaders" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/assets" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/mian/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/effects/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/filters/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/effects/bundle" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/shaders" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/resources" type="java-test-resource" />
@@ -77,8 +86,8 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.0.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/org.adw.library/discrete-seekbar/1.0.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.4.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/de.hdodenhof/circleimageview/2.2.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-safeguard" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
@@ -87,7 +96,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/typedefs.txt" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
@@ -95,18 +103,13 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="__local_jars__:H.\AndroidStudioProjects\LiveStreaming_Android_Demo_V2.1.0\faceunity\libs\nama.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-core-utils-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:animated-vector-drawable-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:appcompat-v7-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="org.adw.library:discrete-seekbar-1.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-core-ui-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-compat-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-annotations:25.0.1@jar" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-media-compat-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-vector-drawable-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-v4-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-fragment-25.0.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.android.support:animated-vector-drawable-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.android.support:support-v4-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.android.support:support-annotations:23.4.0@jar" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.android.support:recyclerview-v7-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: __local_jars__:D.\GitHub\FULiveStreamingDemoDroid\faceunity\libs\nama.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.android.support:appcompat-v7-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.android.support:support-vector-drawable-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: de.hdodenhof:circleimageview-2.2.0" level="project" />
   </component>
 </module>

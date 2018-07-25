@@ -180,8 +180,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="0dp"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:visibility="gone">
+            android:paddingRight="20dp">
 
             <TextView
                 android:layout_width="0dp"
