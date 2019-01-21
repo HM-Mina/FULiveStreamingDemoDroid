@@ -107,7 +107,7 @@
     <orderEntry type="library" exported="" name="Gradle: com.android.support:support-v4-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:support-annotations:23.4.0@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:recyclerview-v7-23.4.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: __local_jars__:D.\GitHub\FULiveStreamingDemoDroid\faceunity\libs\nama.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: __local_jars__:D.\third_demo\yx\FuLiveStreamingDemoDroid\faceunity\libs\nama.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:appcompat-v7-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:support-vector-drawable-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: de.hdodenhof:circleimageview-2.2.0" level="project" />
